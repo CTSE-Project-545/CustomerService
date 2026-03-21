@@ -14,8 +14,9 @@ public class Customer {
 
     private String name;
     private String email;
-
+    private String mobile;
     private double loyaltyPoints = 0;
+
 
     /** Payment IDs from payment-service (microservice cross-reference). */
     @ElementCollection
@@ -63,4 +64,14 @@ public class Customer {
     public void setPaymentIds(List<String> paymentIds) {
         this.paymentIds = paymentIds;
     }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    
 }

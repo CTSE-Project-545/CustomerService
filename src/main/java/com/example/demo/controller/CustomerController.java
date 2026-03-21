@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CustomerPaymentOrderDetailResponseDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     private final CustomerService service;
@@ -18,6 +20,11 @@ public class CustomerController {
     @PostMapping
     public Customer create(@RequestBody Customer c) {
         return service.createCustomer(c);
+    }
+
+    @GetMapping
+    public List<Customer> getAll() {
+        return service.getAllCustomers();
     }
 
     // Get customer
@@ -35,13 +42,12 @@ public class CustomerController {
         return service.updateCustomer(id, request.getName(), request.getEmail());
     }
 
-    // ⭐ Integration endpoint called by payment-service
-    @PostMapping("/{id}/loyalty")
-    public Customer updateLoyalty(
-            @PathVariable Long id,
-            @RequestBody LoyaltyRequest request
-    ) {
-        return service.addLoyaltyPoints(id, request.getAmountPaid(), request.getPaymentId());
+    
+
+    // New endpoint: payment -> order -> product details via PAYMENT-SERVICE (Eureka)
+    @GetMapping("/payment-order-product-details")
+    public List<CustomerPaymentOrderDetailResponseDTO> getPaymentOrderProductDetails() {
+        return service.getPaymentOrderProductDetails();
     }
 }
 
@@ -61,9 +67,13 @@ class LoyaltyRequest {
     private double amountPaid;
     /** Payment ID from payment-service for cross-reference. */
     private String paymentId;
+    /** Customer mobile number used for grouping customers. */
+    private String mobile;
 
     public double getAmountPaid() { return amountPaid; }
     public void setAmountPaid(double amountPaid) { this.amountPaid = amountPaid; }
     public String getPaymentId() { return paymentId; }
     public void setPaymentId(String paymentId) { this.paymentId = paymentId; }
+    public String getMobile() { return mobile; }
+    public void setMobile(String mobile) { this.mobile = mobile; }
 }
