@@ -42,6 +42,12 @@ public class CustomerController {
         return service.updateCustomer(id, request.getName(), request.getEmail());
     }
 
+    // Delete customer
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteCustomer(id);
+    }
+
     
 
     // New endpoint: payment -> order -> product details via PAYMENT-SERVICE (Eureka)

@@ -67,6 +67,10 @@ public class CustomerService {
         return repo.findById(id).orElse(null);
     }
 
+    public void deleteCustomer(Long id) {
+        repo.deleteById(id);
+    }
+
     public Customer updateCustomer(Long id, String name, String email) {
         Customer customer = getCustomer(id);
         if (customer == null)
