@@ -82,14 +82,6 @@ public class CustomerService {
         return repo.save(customer);
     }
 
-    public boolean deleteCustomer(Long id) {
-        if (!repo.existsById(id)) {
-            return false;
-        }
-        repo.deleteById(id);
-        return true;
-    }
-
     /**
      * Calls PAYMENT-SERVICE (via Eureka service name PAYMENT-SERVICE) to
      * retrieve payment -> order -> product details and wraps them with
